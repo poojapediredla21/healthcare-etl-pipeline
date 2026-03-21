@@ -1,14 +1,15 @@
 import sqlite3
 
-def load_data(df, db_name="healthcare.db", table_name="claims"):
-    if df is None:
-        print("No data to load")
-        return
-
+def load_dataframes_to_sqlite(dataframes, db_name="healthcare.db"):
     try:
         conn = sqlite3.connect(db_name)
-        df.to_sql(table_name, conn, if_exists='replace', index=False)
+
+        for table_name, df in dataframes.items():
+            df.to_sql(table_name, conn, if_exists="replace", index=False)
+            print(f"Loaded {table_name} with {len(df)} rows")
+
         conn.close()
-        print(f"Data loaded successfully into {table_name} table")
+        print("All tables loaded successfully into SQLite")
+
     except Exception as e:
         print(f"Error during loading: {e}")
