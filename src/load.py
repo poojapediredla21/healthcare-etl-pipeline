@@ -13,3 +13,9 @@ def load_dataframes_to_sqlite(dataframes, db_name="healthcare.db"):
 
     except Exception as e:
         print(f"Error during loading: {e}")
+
+def save_to_csv(dataframes):
+    for name, df in dataframes.items():
+        output_path = f"data/processed/{name}.csv"
+        df.to_csv(output_path, index=False)
+        print(f"Saved {name} to {output_path}")
